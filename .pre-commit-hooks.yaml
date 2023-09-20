@@ -4,4 +4,4 @@
   entry: pre-commit-makefile
   language: system
   types: [file]
-  files: [Makefile]
+  files: '^Makefile$'
