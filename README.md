@@ -7,7 +7,7 @@ This project allows users to automatically update their README.md with descripti
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shini4i/pre-commit-makefile/run-tests.yml?branch=main)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/shini4i/pre-commit-makefile)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/shini4i/pre-commit-makefile)
-[![codecov](https://codecov.io/gh/shini4i/pre-commit-makefile/branch/main/graph/badge.svg?token=48E1OZHLPY)](https://codecov.io/gh/shini4i/pre-commit-makefile)
+[![codecov](https://codecov.io/gh/shini4i/pre-commit-makefile/graph/badge.svg?token=JXN63AUFFW)](https://codecov.io/gh/shini4i/pre-commit-makefile)
 [![Go Report Card](https://goreportcard.com/badge/github.com/shini4i/pre-commit-makefile)](https://goreportcard.com/report/github.com/shini4i/pre-commit-makefile)
 ![GitHub](https://img.shields.io/github/license/shini4i/pre-commit-makefile)
 
