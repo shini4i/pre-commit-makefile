@@ -1,0 +1,7 @@
+- id: makefile-readme-updater
+  name: Makefile README Updater
+  description: Update README.md based on Makefile
+  entry: pre-commit-makefile
+  language: system
+  types: [file]
+  files: [Makefile]
