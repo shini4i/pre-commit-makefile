@@ -2,7 +2,7 @@
 
 # pre-commit-makefile
 
-This project addresses a specific and straightforward use case. It enables users to dynamically incorporate descriptions of Makefile targets into their README.md.
+This project allows users to automatically update their README.md with descriptions of Makefile targets.
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/shini4i/pre-commit-makefile/run-tests.yml?branch=main)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/shini4i/pre-commit-makefile)

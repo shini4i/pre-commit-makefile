@@ -51,7 +51,7 @@ jobs:
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           GITHUB_TOKEN: op://github-actions/github/token
-          CODECOV_TOKEN: op://github-actions/codecov/token
+          CODECOV_TOKEN: op://github-actions/codecov/pre-commit-makefile
 
       - name: Run tests
         run: make test-coverage
