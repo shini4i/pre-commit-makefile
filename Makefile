@@ -17,7 +17,6 @@ ensure-dir:
 .PHONY: build
 build: ensure-dir ## Build project binary
 	@echo "Building project binary..."
-	@go build -o bin/pre-commit-makefile ./cmd/pre-commit-makefile
 	@@CGO_ENABLED=0 go build -ldflags="-s -w" -o bin/pre-commit-makefile ./cmd/pre-commit-makefile
 
 .PHONY: test
