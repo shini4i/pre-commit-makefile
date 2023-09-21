@@ -88,3 +88,53 @@ func TestUpdateReadme(t *testing.T) {
 `
 	assert.Equal(t, expectedContent, string(updatedContent))
 }
+
+func TestApp_Run(t *testing.T) {
+	// Positive test
+	t.Run("with valid Makefile and README.md", func(t *testing.T) {
+		fs := afero.NewMemMapFs()
+
+		// Setup Makefile
+		err := afero.WriteFile(fs, "Makefile", []byte(`
+			.PHONY: build
+			build: ## Build the project
+				@echo "Building..."`,
+		), 0644)
+		assert.NoError(t, err)
+
+		// Setup README.md
+		readmeContent := `
+			# Project Title
+
+			<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
+
+			<!-- END OF PRE-COMMIT-MAKEFILE HOOK -->
+
+			## Another Section
+		`
+		err = afero.WriteFile(fs, "README.md", []byte(readmeContent), 0644)
+		assert.NoError(t, err)
+
+		app := &App{Fs: fs}
+		assert.NoError(t, app.Run())
+	})
+
+	// Negative test: Missing Makefile
+	t.Run("with missing Makefile", func(t *testing.T) {
+		fs := afero.NewMemMapFs()
+		app := &App{Fs: fs}
+		assert.Error(t, app.Run())
+	})
+
+	// Negative test: Missing hook tags in README.md
+	t.Run("with missing hook tags in README.md", func(t *testing.T) {
+		fs := afero.NewMemMapFs()
+
+		// Setup README.md without hook tags
+		err := afero.WriteFile(fs, "README.md", []byte("# Project Title\n\n## Another Section"), 0644)
+		assert.NoError(t, err)
+
+		app := &App{Fs: fs}
+		assert.Error(t, app.Run())
+	})
+}

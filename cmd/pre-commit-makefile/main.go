@@ -14,6 +14,10 @@ type Target struct {
 	Description string
 }
 
+type App struct {
+	Fs afero.Fs
+}
+
 func ParseMakefile(file afero.File) []Target {
 	var targets []Target
 	targetRegex := regexp.MustCompile(`^([a-zA-Z._-]+):.*?## (.*)$`)
@@ -64,19 +68,28 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath string) error {
 	return afero.WriteFile(fs, readmePath, []byte(newContent.String()), 0644)
 }
 
-func main() {
-	fs := afero.NewOsFs()
-
-	file, err := fs.Open("Makefile")
+func (app *App) Run() error {
+	file, err := app.Fs.Open("Makefile")
 	if err != nil {
-		fmt.Printf("Error opening Makefile: %s", err)
-		os.Exit(1)
+		return fmt.Errorf("error opening Makefile: %s", err)
 	}
 
 	targets := ParseMakefile(file)
 
-	if err := UpdateReadme(fs, targets, "README.md"); err != nil {
-		fmt.Printf("Error updating README.md: %s", err)
+	if err := UpdateReadme(app.Fs, targets, "README.md"); err != nil {
+		return fmt.Errorf("error updating README.md: %s", err)
+	}
+
+	return nil
+}
+
+func main() {
+	app := &App{
+		Fs: afero.NewOsFs(),
+	}
+
+	if err := app.Run(); err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
