@@ -21,7 +21,7 @@ brews:
       owner: shini4i
       name: homebrew-tap
     folder: Formula
-    homepage: https://github.com/shini4i/argo-compare
+    homepage: https://github.com/shini4i/pre-commit-makefile
     description: "A tool that parses Makefile targets and automatically updates the project's README with a list of available targets and their descriptions"
     license: "MIT"
 
