@@ -27,7 +27,7 @@ To use this project, add the following to your `.pre-commit-config.yaml`:
 
 ```yaml
 - repo: https://github.com/shini4i/pre-commit-makefile
-  rev: v0.1.1 # Replace with the latest release version
+  rev: v0.1.2 # Replace with the latest release version
   hooks:
     - id: makefile-readme-updater
 ```
@@ -39,34 +39,30 @@ The following comments should be added to your `README.md`:
 <!-- END OF PRE-COMMIT-MAKEFILE HOOK -->
 ```
 
-The content between these markers will be dynamically generated and will look something like this:
-
-```
-## Makefile targets
-
-▷ `install-deps`: Install dependencies
-
-▷ `build`: Build project binary
-
-▷ `test`: Run tests
-
-▷ `test-coverage`: Run tests with coverage
-
-▷ `clean`: Remove build artifacts
-```
+The content between these markers will be dynamically generated.
 
 This project expects the following `Makefile` format, the content after  `##` will be used as a target description:
 
 ```makefile
 .PHONY: help
-help: ## Print this help
+help: ## print this help
 	@echo "Usage: make [target]"
 	@grep -E '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: test
-test: ## Run tests
+test: ## run tests
 	@go test -v ./... -count=1
 ```
+
+### Example
+The generated content will be a list of existing targets (except for help) in the following format:
+
+To `target description` run:
+```bash
+make <target>
+```
+
+> **Note**: The generated content will be placed under `## Makefile targets` section.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
