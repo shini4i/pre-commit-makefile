@@ -1,6 +1,6 @@
 <div align="center">
 
-# pre-commit-makefile
+# 🛠 pre-commit-makefile 🛠
 
 This project allows users to automatically update their README.md with descriptions of Makefile targets.
 
@@ -15,33 +15,15 @@ This project allows users to automatically update their README.md with descripti
 
 ## Prerequisites
 
-The binary can be installed using homebrew:
+To use this project, you need to install `pre-commit-makefile` binary. You can do this by running:
 
 ```bash
 brew install shini4i/tap/pre-commit-makefile
 ````
 
-## Usage
+Or by downloading the desired version from [releases](https://github.com/shini4i/pre-commit-makefile/releases) page.
 
-To use this project, add the following to your `.pre-commit-config.yaml`:
-
-```yaml
-- repo: https://github.com/shini4i/pre-commit-makefile
-  rev: v0.1.2 # Replace with the latest release version
-  hooks:
-    - id: makefile-readme-updater
-```
-
-The following comments should be added to your `README.md`:
-
-```markdown
-<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
-<!-- END OF PRE-COMMIT-MAKEFILE HOOK -->
-```
-
-The content between these markers will be dynamically generated.
-
-This project expects the following `Makefile` format, the content after  `##` will be used as a target description:
+This expected `Makefile` format is the following:
 
 ```makefile
 .PHONY: help
@@ -53,6 +35,29 @@ help: ## print this help
 test: ## run tests
 	@go test -v ./... -count=1
 ```
+
+> **Note**: The content after  `##` will be used as a target description
+
+## Configuration
+
+To start using this project, add the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/shini4i/pre-commit-makefile
+    rev: v0.1.2 # Replace with the latest release version
+    hooks:
+      - id: makefile-readme-updater
+```
+
+The following comment markers should be added to your `README.md`:
+
+```markdown
+<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
+<!-- END OF PRE-COMMIT-MAKEFILE HOOK -->
+```
+
+The dynamically generated content will be placed between the markers.
 
 ### Example
 The generated content will be a list of existing targets (except for help) in the following format:
