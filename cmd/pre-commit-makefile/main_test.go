@@ -72,20 +72,21 @@ func TestUpdateReadme(t *testing.T) {
 	assert.NoError(t, err)
 
 	updatedContent, _ := afero.ReadFile(fs, "README.md")
-	expectedContent := `
-# Project Title
 
-<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
-## Makefile targets
+	expectedContent := "\n# Project Title\n\n" +
+		"<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->\n" +
+		"## Makefile targets\n\n" +
+		"To Build the project run:\n\n" +
+		"```bash\n" +
+		"make build\n" +
+		"```\n\n" +
+		"To Clean build artifacts run:\n\n" +
+		"```bash\n" +
+		"make clean\n" +
+		"```\n\n" +
+		"<!-- END OF PRE-COMMIT-MAKEFILE HOOK -->\n\n" +
+		"## Another Section\n"
 
-▷ ` + "`build`" + `: Build the project
-
-▷ ` + "`clean`" + `: Clean build artifacts
-
-<!-- END OF PRE-COMMIT-MAKEFILE HOOK -->
-
-## Another Section
-`
 	assert.Equal(t, expectedContent, string(updatedContent))
 }
 
