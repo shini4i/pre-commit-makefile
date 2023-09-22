@@ -23,7 +23,7 @@ brew install shini4i/tap/pre-commit-makefile
 
 Or by downloading the desired version from [releases](https://github.com/shini4i/pre-commit-makefile/releases) page.
 
-This expected `Makefile` format is the following:
+The expected `Makefile` format is the following:
 
 ```makefile
 .PHONY: help
