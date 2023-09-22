@@ -59,7 +59,7 @@ The following comment markers should be added to your `README.md`:
 
 The dynamically generated content will be placed between the markers.
 
-### Example
+## Example
 The generated content will be a list of existing targets (except for help) in the following format:
 
 To `target description` run:
