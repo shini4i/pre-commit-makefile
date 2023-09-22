@@ -1,9 +1,9 @@
 module github.com/shini4i/pre-commit-makefile
 
-go 1.21.0
+go 1.21
 
 require (
-	github.com/spf13/afero v1.9.5
+	github.com/spf13/afero v1.10.0
 	github.com/stretchr/testify v1.8.4
 )
 

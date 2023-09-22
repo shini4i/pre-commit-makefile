@@ -59,7 +59,8 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath string) error {
 
 	for _, target := range targets {
 		if target.Name != "help" {
-			newContent.WriteString(fmt.Sprintf("▷ `%s`: %s\n\n", target.Name, target.Description))
+			newContent.WriteString(fmt.Sprintf("To %s run:\n\n", target.Description))
+			newContent.WriteString(fmt.Sprintf("```bash\nmake %s\n```\n\n", target.Name))
 		}
 	}
 
