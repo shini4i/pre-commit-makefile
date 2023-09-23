@@ -1,9 +1,10 @@
 package main
 
 import (
+	"testing"
+
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestParseMakefile(t *testing.T) {

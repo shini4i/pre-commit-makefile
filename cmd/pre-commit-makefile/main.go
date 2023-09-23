@@ -3,10 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/spf13/afero"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/spf13/afero"
 )
 
 type Target struct {
