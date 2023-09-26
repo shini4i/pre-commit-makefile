@@ -45,7 +45,7 @@ To start using this project, add the following to your `.pre-commit-config.yaml`
 ```yaml
 repos:
   - repo: https://github.com/shini4i/pre-commit-makefile
-    rev: v0.1.2 # Replace with the latest release version
+    rev: v0.1.4 # Replace with the latest release version
     hooks:
       - id: makefile-readme-updater
 ```
@@ -58,6 +58,13 @@ The following comment markers should be added to your `README.md`:
 ```
 
 The dynamically generated content will be placed between the markers.
+
+Additionaly, it is possible to change the readme section title by adding the following arguments to your `.pre-commit-config.yaml`:
+
+```yaml
+args:
+  - --section-name=## Usage
+```
 
 ## Example
 The generated content will be a list of existing targets (except for help) in the following format:
