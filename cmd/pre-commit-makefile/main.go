@@ -38,7 +38,7 @@ func ParseMakefile(file afero.File) []Target {
 	return targets
 }
 
-func UpdateReadme(fs afero.Fs, targets []Target, readmePath string) error {
+func UpdateReadme(fs afero.Fs, targets []Target, readmePath, readmeSectionName string) error {
 	currentContent, err := afero.ReadFile(fs, readmePath)
 	if err != nil {
 		return err
@@ -56,7 +56,7 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath string) error {
 
 	var newContent strings.Builder
 	newContent.WriteString(string(currentContent[:beginPos+len(beginTag)]) + "\n")
-	newContent.WriteString("## Makefile targets\n\n")
+	newContent.WriteString(fmt.Sprintf("%s\n\n", readmeSectionName))
 
 	for _, target := range targets {
 		if target.Name != "help" {
@@ -70,7 +70,7 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath string) error {
 	return afero.WriteFile(fs, readmePath, []byte(newContent.String()), 0644)
 }
 
-func (app *App) Run() error {
+func (app *App) Run(readmeSectionName string) error {
 	file, err := app.Fs.Open("Makefile")
 	if err != nil {
 		return fmt.Errorf("error opening Makefile: %s", err)
@@ -78,7 +78,7 @@ func (app *App) Run() error {
 
 	targets := ParseMakefile(file)
 
-	if err := UpdateReadme(app.Fs, targets, "README.md"); err != nil {
+	if err := UpdateReadme(app.Fs, targets, "README.md", readmeSectionName); err != nil {
 		return fmt.Errorf("error updating README.md: %s", err)
 	}
 
@@ -86,11 +86,7 @@ func (app *App) Run() error {
 }
 
 func main() {
-	app := &App{
-		Fs: afero.NewOsFs(),
-	}
-
-	if err := app.Run(); err != nil {
+	if err := cli(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
