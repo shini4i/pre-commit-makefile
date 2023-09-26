@@ -24,7 +24,7 @@ func cli() error {
 		},
 	}
 
-	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Description for section-name flag")
+	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Readme section name to put the description in")
 
 	var rootCmd = &cobra.Command{Use: "pre-commit-makefile"}
 	rootCmd.AddCommand(cmdRun)
