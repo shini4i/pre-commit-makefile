@@ -5,3 +5,4 @@
   language: system
   types: [file]
   files: '^Makefile$'
+  args: []
