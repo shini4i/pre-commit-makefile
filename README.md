@@ -59,10 +59,11 @@ The following comment markers should be added to your `README.md`:
 
 The dynamically generated content will be placed between the markers.
 
-Additionaly, it is possible to change the readme section title by adding the following arguments to your `.pre-commit-config.yaml`:
+Additionally, it is possible to override a few settings by adding the following arguments to your `.pre-commit-config.yaml`:
 
 ```yaml
 args:
+  - --readme-path=docs/README.md
   - --section-name=## Usage
 ```
 

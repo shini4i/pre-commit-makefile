@@ -6,6 +6,7 @@ import (
 )
 
 func cli() error {
+	var readmePath string
 	var sectionName string
 
 	var cmdRun = &cobra.Command{
@@ -16,7 +17,7 @@ func cli() error {
 				Fs: afero.NewOsFs(),
 			}
 
-			if err := app.Run(sectionName); err != nil {
+			if err := app.Run(readmePath, sectionName); err != nil {
 				return err
 			}
 
@@ -24,6 +25,7 @@ func cli() error {
 		},
 	}
 
+	cmdRun.Flags().StringVarP(&readmePath, "readme-path", "r", "README.md", "Path to the readme file")
 	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Readme section name to put the description in")
 
 	var rootCmd = &cobra.Command{Use: "pre-commit-makefile"}
