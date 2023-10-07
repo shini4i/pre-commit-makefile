@@ -71,7 +71,7 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath, readmeSectionName s
 }
 
 func (app *App) Run(readmePath, readmeSectionName string) error {
-	file, err := app.Fs.Open(readmePath)
+	file, err := app.Fs.Open("Makefile")
 	if err != nil {
 		return fmt.Errorf("error opening Makefile: %s", err)
 	}
