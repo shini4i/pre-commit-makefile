@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const defaultReadmePath = "README.md"
 const defaultReadmeSectionName = "## Makefile targets"
 
 func TestParseMakefile(t *testing.T) {
@@ -56,7 +57,7 @@ func TestUpdateReadme(t *testing.T) {
 ## Another Section
 `
 
-	err := afero.WriteFile(fs, "README.md", []byte(readmeContent), 0644)
+	err := afero.WriteFile(fs, defaultReadmePath, []byte(readmeContent), 0644)
 	assert.NoError(t, err)
 
 	targets := []Target{
@@ -71,7 +72,7 @@ func TestUpdateReadme(t *testing.T) {
 	}
 
 	// Assuming the function is adapted to use afero Fs
-	err = UpdateReadme(fs, targets, "README.md", defaultReadmeSectionName)
+	err = UpdateReadme(fs, targets, defaultReadmePath, defaultReadmeSectionName)
 	assert.NoError(t, err)
 
 	updatedContent, _ := afero.ReadFile(fs, "README.md")
@@ -116,18 +117,18 @@ func TestApp_Run(t *testing.T) {
 
 			## Another Section
 		`
-		err = afero.WriteFile(fs, "README.md", []byte(readmeContent), 0644)
+		err = afero.WriteFile(fs, defaultReadmePath, []byte(readmeContent), 0644)
 		assert.NoError(t, err)
 
 		app := &App{Fs: fs}
-		assert.NoError(t, app.Run(defaultReadmeSectionName))
+		assert.NoError(t, app.Run(defaultReadmePath, defaultReadmeSectionName))
 	})
 
 	// Negative test: Missing Makefile
 	t.Run("with missing Makefile", func(t *testing.T) {
 		fs := afero.NewMemMapFs()
 		app := &App{Fs: fs}
-		assert.Error(t, app.Run(defaultReadmeSectionName))
+		assert.Error(t, app.Run(defaultReadmePath, defaultReadmeSectionName))
 	})
 
 	// Negative test: Missing hook tags in README.md
@@ -139,6 +140,6 @@ func TestApp_Run(t *testing.T) {
 		assert.NoError(t, err)
 
 		app := &App{Fs: fs}
-		assert.Error(t, app.Run(defaultReadmeSectionName))
+		assert.Error(t, app.Run(defaultReadmePath, defaultReadmeSectionName))
 	})
 }

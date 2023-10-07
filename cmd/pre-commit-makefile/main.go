@@ -70,15 +70,15 @@ func UpdateReadme(fs afero.Fs, targets []Target, readmePath, readmeSectionName s
 	return afero.WriteFile(fs, readmePath, []byte(newContent.String()), 0644)
 }
 
-func (app *App) Run(readmeSectionName string) error {
-	file, err := app.Fs.Open("Makefile")
+func (app *App) Run(readmePath, readmeSectionName string) error {
+	file, err := app.Fs.Open(readmePath)
 	if err != nil {
 		return fmt.Errorf("error opening Makefile: %s", err)
 	}
 
 	targets := ParseMakefile(file)
 
-	if err := UpdateReadme(app.Fs, targets, "README.md", readmeSectionName); err != nil {
+	if err := UpdateReadme(app.Fs, targets, readmePath, readmeSectionName); err != nil {
 		return fmt.Errorf("error updating README.md: %s", err)
 	}
 
