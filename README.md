@@ -69,7 +69,7 @@ args:
 
 ## Example
 The `Makefile` in this repository will produce the following output:
-<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
+
 To install dependencies run:
 
 ```bash
