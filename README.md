@@ -46,7 +46,7 @@ To start using this project, add the following to your `.pre-commit-config.yaml`
 ```yaml
 repos:
   - repo: https://github.com/shini4i/pre-commit-makefile
-    rev: v0.1.5
+    rev: v0.1.6
     hooks:
       - id: makefile-readme-updater
 ```
