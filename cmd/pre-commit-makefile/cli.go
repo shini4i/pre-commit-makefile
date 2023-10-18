@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
@@ -36,15 +35,20 @@ func cli() error {
 
 	var rootCmd = &cobra.Command{
 		Use: "pre-commit-makefile",
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		Run: func(cmd *cobra.Command, args []string) {
 			if printVersion {
 				fmt.Println(version)
-				os.Exit(0)
+				return
+			}
+
+			// Else: Display default help
+			if err := cmd.Help(); err != nil {
+				return
 			}
 		},
 	}
 
-	rootCmd.PersistentFlags().BoolVarP(&printVersion, "version", "v", false, "Print the version and exit")
+	rootCmd.PersistentFlags().BoolVarP(&printVersion, "version", "v", false, "Print version and exit")
 	rootCmd.AddCommand(cmdRun)
 
 	if err := rootCmd.Execute(); err != nil {
