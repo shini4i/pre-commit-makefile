@@ -30,3 +30,11 @@ test-coverage: ## run tests with coverage
 .PHONY: clean
 clean: ## remove build artifacts
 	@rm -rf bin
+
+.PHONY: bump-patch
+bump-patch:
+	@bump2version patch --allow-dirty
+
+.PHONY: bump-minor
+bump-minor:
+	@bump2version minor --allow-dirty
