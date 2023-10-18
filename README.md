@@ -100,7 +100,8 @@ To remove build artifacts run:
 make clean
 ```
 
-> Note: The generated content will be placed under `## Makefile targets` section.
+> **Note**
+The generated content will be placed under `## Makefile targets` section.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
