@@ -68,14 +68,39 @@ args:
 ```
 
 ## Example
-The generated content will be a list of existing targets (except for help) in the following format:
+The `Makefile` in this repository will produce the following output:
+<!-- BEGINNING OF PRE-COMMIT-MAKEFILE HOOK -->
+To install dependencies run:
 
-To `target description` run:
 ```bash
-make <target>
+make install-deps
 ```
 
-> **Note**: The generated content will be placed under `## Makefile targets` section.
+To build project binary run:
+
+```bash
+make build
+```
+
+To run tests run:
+
+```bash
+make test
+```
+
+To run tests with coverage run:
+
+```bash
+make test-coverage
+```
+
+To remove build artifacts run:
+
+```bash
+make clean
+```
+
+> Note: The generated content will be placed under `## Makefile targets` section.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
