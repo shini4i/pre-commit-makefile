@@ -36,7 +36,8 @@ test: ## run tests
 	@go test -v ./... -count=1
 ```
 
-> **Note**: The content after  `##` will be used as a target description
+> **Note**
+The content after  `##` will be used as a target description
 
 ## Configuration
 
