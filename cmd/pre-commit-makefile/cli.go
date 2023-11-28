@@ -30,6 +30,18 @@ func cli() error {
 		},
 	}
 
+	var cmdValidate = &cobra.Command{
+		Use:   "validate",
+		Short: "Validate the pre-commit-makefile",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			fmt.Println("Validating Makefile")
+			if err := ValidateMakefile(afero.NewOsFs(), "Makefile"); err != nil {
+				return err
+			}
+			return nil
+		},
+	}
+
 	cmdRun.Flags().StringVarP(&readmePath, "readme-path", "r", "README.md", "Path to the readme file")
 	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Readme section name to put the description in")
 
@@ -50,6 +62,7 @@ func cli() error {
 
 	rootCmd.PersistentFlags().BoolVarP(&printVersion, "version", "v", false, "Print version and exit")
 	rootCmd.AddCommand(cmdRun)
+	rootCmd.AddCommand(cmdValidate)
 
 	if err := rootCmd.Execute(); err != nil {
 		return err
