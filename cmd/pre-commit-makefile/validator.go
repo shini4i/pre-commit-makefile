@@ -9,18 +9,25 @@ import (
 	"github.com/spf13/afero"
 )
 
+var (
+	targetRegex = regexp.MustCompile(`^([a-zA-Z._-]+):`)
+	phonyRegex  = regexp.MustCompile(`^\.PHONY: (.*)$`)
+)
+
 func ValidateMakefile(fs afero.Fs, makefilePath string) error {
 	file, err := fs.Open(makefilePath)
 	if err != nil {
-		return fmt.Errorf("error opening Makefile: %s", err)
+		return fmt.Errorf("error opening Makefile: %w", err)
 	}
-	defer file.Close()
 
-	targetRegex := regexp.MustCompile(`^([a-zA-Z._-]+):`)
-	phonyRegex := regexp.MustCompile(`^\.PHONY: (.*)$`)
+	defer func(file afero.File) {
+		if err := file.Close(); err != nil {
+			fmt.Printf("error closing Makefile: %v", err)
+		}
+	}(file)
 
 	var targets []string
-	var phonies []string
+	phonies := make(map[string]bool)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -33,22 +40,12 @@ func ValidateMakefile(fs afero.Fs, makefilePath string) error {
 		}
 
 		if len(phonyMatches) == 2 {
-			phonies = append(phonies, phonyMatches[1])
+			phonies[phonyMatches[1]] = true
 		}
 	}
 
-	fmt.Println(targets)
-	fmt.Println(phonies)
 	for _, target := range targets {
-		found := false
-		for _, phony := range phonies {
-			if target == phony {
-				found = true
-				break
-			}
-		}
-
-		if !found {
+		if !phonies[target] {
 			return fmt.Errorf("target '%s' does not have a corresponding .PHONY definition", target)
 		}
 	}
