@@ -32,7 +32,6 @@ test-build:
 .PHONY: start-server
 start-server:
 
-
 test-build:`
 
 	if err := afero.WriteFile(fs, testMakefilePath, []byte(makefileContent), 0644); err != nil {
