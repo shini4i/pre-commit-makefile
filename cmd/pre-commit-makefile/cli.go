@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "0.1.6"
+const version = "0.2.0"
 
 func runCommand(readmePath *string, sectionName *string) *cobra.Command {
 	return &cobra.Command{
