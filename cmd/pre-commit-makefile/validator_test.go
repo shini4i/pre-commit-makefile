@@ -8,35 +8,44 @@ import (
 )
 
 func TestValidateMakefile(t *testing.T) {
+
+	// Creating a new in-memory file system
 	fs := afero.NewMemMapFs()
+	makefilePath := "Makefile"
 
-	testMakefilePath := "/test/Makefile"
-
-	// Creating a fake Makefile
-	makefileContent := `
+	t.Run("Correct Makefile", func(t *testing.T) {
+		makefileContent := `
 .PHONY: start-server
 start-server:
 
 .PHONY: test-build
 test-build:
 `
+		if err := afero.WriteFile(fs, makefilePath, []byte(makefileContent), 0644); err != nil {
+			t.Fatal(err)
+		}
 
-	if err := afero.WriteFile(fs, testMakefilePath, []byte(makefileContent), 0644); err != nil {
-		t.Fatalf("error writing Makefile: %v", err)
-	}
+		err := ValidateMakefile(fs, makefilePath)
+		assert.NoError(t, err, "ValidateMakefile should not return an error for a correct Makefile")
+	})
 
-	assert.NoError(t, ValidateMakefile(fs, testMakefilePath))
-
-	// Creating a fake Makefile with a target without a .PHONY definition
-	makefileContent = `
+	t.Run("Malformed Makefile", func(t *testing.T) {
+		makefileContent := `
 .PHONY: start-server
 start-server:
 
 test-build:`
 
-	if err := afero.WriteFile(fs, testMakefilePath, []byte(makefileContent), 0644); err != nil {
-		t.Fatalf("error writing Makefile: %v", err)
-	}
+		if err := afero.WriteFile(fs, makefilePath, []byte(makefileContent), 0644); err != nil {
+			t.Fatal(err)
+		}
 
-	assert.Error(t, ValidateMakefile(fs, testMakefilePath))
+		err := ValidateMakefile(fs, makefilePath)
+		assert.Error(t, err, "ValidateMakefile should return an error for a malformed Makefile")
+	})
+
+	t.Run("Non-existent file", func(t *testing.T) {
+		err := ValidateMakefile(fs, "/nonexistent/path")
+		assert.Error(t, err, "ValidateMakefile should return an error for a non-existent Makefile")
+	})
 }
