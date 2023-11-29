@@ -48,8 +48,17 @@ repos:
   - repo: https://github.com/shini4i/pre-commit-makefile
     rev: v0.1.6
     hooks:
+      - id: makefile-validator
       - id: makefile-readme-updater
 ```
+
+## Validator
+
+Currently, the validator is limited to checking if the `Makefile` targets have relevant `.PHONY` definitions.
+
+No additional configuration is required.
+
+## Readme Updater
 
 The following comment markers should be added to your `README.md`:
 
@@ -68,7 +77,7 @@ args:
   - --section-name=## Usage
 ```
 
-## Example
+#### Example
 The `Makefile` in this repository will produce the following output:
 
 To install dependencies run:

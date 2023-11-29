@@ -9,12 +9,8 @@ import (
 
 const version = "0.1.6"
 
-func cli() error {
-	var readmePath string
-	var sectionName string
-	var printVersion bool
-
-	var cmdRun = &cobra.Command{
+func runCommand(readmePath *string, sectionName *string) *cobra.Command {
+	return &cobra.Command{
 		Use:   "run",
 		Short: "Run the pre-commit-makefile",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -22,37 +18,62 @@ func cli() error {
 				Fs: afero.NewOsFs(),
 			}
 
-			if err := app.Run(readmePath, sectionName); err != nil {
+			if err := app.Run(*readmePath, *sectionName); err != nil {
 				return err
 			}
 
 			return nil
 		},
 	}
+}
 
-	cmdRun.Flags().StringVarP(&readmePath, "readme-path", "r", "README.md", "Path to the readme file")
-	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Readme section name to put the description in")
+func validateCommand() *cobra.Command {
+	return &cobra.Command{
+		Use:   "validate",
+		Short: "Validate the pre-commit-makefile",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := ValidateMakefile(afero.NewOsFs(), "Makefile"); err != nil {
+				return err
+			}
+			return nil
+		},
+		SilenceUsage:  true,
+		SilenceErrors: true,
+	}
+}
 
-	var rootCmd = &cobra.Command{
+func rootCommand(printVersion *bool) *cobra.Command {
+	cmd := &cobra.Command{
 		Use: "pre-commit-makefile",
 		Run: func(cmd *cobra.Command, args []string) {
-			if printVersion {
+			if *printVersion {
 				fmt.Println(version)
 				return
 			}
 
 			// Else: Display default help
 			if err := cmd.Help(); err != nil {
-				return
+				fmt.Println(err)
 			}
 		},
 	}
 
-	rootCmd.PersistentFlags().BoolVarP(&printVersion, "version", "v", false, "Print version and exit")
-	rootCmd.AddCommand(cmdRun)
+	cmd.PersistentFlags().BoolVarP(printVersion, "version", "v", false, "Print version and exit")
+	return cmd
+}
 
-	if err := rootCmd.Execute(); err != nil {
-		return err
-	}
-	return nil
+func cli() error {
+	var readmePath string
+	var sectionName string
+	var printVersion bool
+
+	cmdRun := runCommand(&readmePath, &sectionName)
+	cmdRun.Flags().StringVarP(&readmePath, "readme-path", "r", "README.md", "Path to the readme file")
+	cmdRun.Flags().StringVarP(&sectionName, "section-name", "s", "## Makefile targets", "Readme section name to put the description in")
+
+	rootCmd := rootCommand(&printVersion)
+	rootCmd.AddCommand(cmdRun)
+	rootCmd.AddCommand(validateCommand())
+
+	return rootCmd.Execute()
 }

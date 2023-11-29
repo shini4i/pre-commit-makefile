@@ -6,3 +6,11 @@
   types: [file]
   files: '^Makefile$'
   args: []
+- id: makefile-validator
+  name: makefile-validator
+  description: Validate Makefile
+  entry: pre-commit-makefile validate
+  language: system
+  types: [file]
+  files: '^Makefile$'
+  args: []
