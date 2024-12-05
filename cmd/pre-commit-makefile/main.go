@@ -21,7 +21,7 @@ type App struct {
 
 func ParseMakefile(file afero.File) []Target {
 	var targets []Target
-	targetRegex := regexp.MustCompile(`^([a-zA-Z0-9._-]+):.*?## (.*)$`)
+	targetRegex := regexp.MustCompile(`^([a-zA-Z0-9._/-]+):.*?## (.*)$`)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
